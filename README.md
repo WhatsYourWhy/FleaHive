@@ -1,8 +1,9 @@
 # FleaHive 🐝
 
 **A drag-and-drop local summarizer & tagger.**
+Small and powerful—built to stay out of your way while giving you fast, useful output.
 
-FleaHive is a tiny, offline-first helper that accepts `.txt` or `.md` (Markdown) files and returns structured JSON containing:
+FleaHive is an offline-first helper that accepts `.txt` or `.md` (Markdown) files and returns structured JSON containing:
 - An extractive summary (semantic ranking when available, keyword density otherwise)
 - Auto-generated tags (topics)
 - Word count metrics
@@ -11,7 +12,7 @@ It is designed to live in your toolbox as a small, single-purpose script—not a
 
 ## Features
 - **Smart Mode:** If `sentence-transformers` is installed, FleaHive uses embeddings to rank sentences by importance.
-- **Fast Mode:** Without optional AI packages, it falls back to a keyword-density algorithm.
+- **Fast Mode:** When you skip optional AI packages, it runs a pure-Python keyword-density algorithm—no extra downloads required.
 - **Markdown ready:** Strips frontmatter, links, and other Markdown noise before analysis.
 - **Drag & drop:** Includes a Windows batch wrapper for zero-touch execution.
 
