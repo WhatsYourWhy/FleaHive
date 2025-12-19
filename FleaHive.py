@@ -54,8 +54,8 @@ def split_sentences(text: str) -> List[str]:
     return [s.strip() for s in re.split(r"(?<=[.!?])\s+", text) if len(s.strip()) > 20]
 
 
-def summarize(text: str, max_len: int = 450) -> str:
-    cleaned = clean(text)
+def summarize(text: str, max_len: int = 450, *, already_cleaned: bool = False) -> str:
+    cleaned = text if already_cleaned else clean(text)
     sentences = split_sentences(cleaned)
     if not sentences:
         return "Nothing to summarize after cleaning."
@@ -162,8 +162,9 @@ def main(argv: Sequence[str]) -> int:
         print(json.dumps({"error": str(exc)}))
         return 1
 
-    summary = summarize(text)
-    tags = tag(summary + text)
+    cleaned_text = clean(text)
+    summary = summarize(cleaned_text, already_cleaned=True)
+    tags = tag(summary + " " + cleaned_text)
 
     original_words = len(re.findall(r"\w+", text))
     summary_words = len(re.findall(r"\w+", summary))
