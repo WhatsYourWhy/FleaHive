@@ -51,12 +51,19 @@ def clean(text: str) -> str:
 
 def split_sentences(text: str) -> List[str]:
     """Simple sentence splitter that preserves meaningful fragments."""
-    return [s.strip() for s in re.split(r"(?<=[.!?])\s+", text) if len(s.strip()) > 20]
+    sentences = [s.strip() for s in re.split(r"(?<=[.!?])\s+", text) if s.strip()]
+    # If punctuation-based splitting fails (e.g., no sentence-ending punctuation), fall back
+    # to the entire text so short passages still summarize properly.
+    if not sentences and text.strip():
+        sentences = [text.strip()]
+    return sentences
 
 
 def summarize(text: str, max_len: int = 450, *, already_cleaned: bool = False) -> str:
     cleaned = text if already_cleaned else clean(text)
     sentences = split_sentences(cleaned)
+    if not sentences and cleaned:
+        sentences = [cleaned]
     if not sentences:
         return "Nothing to summarize after cleaning."
 

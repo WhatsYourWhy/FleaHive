@@ -14,3 +14,11 @@ def test_summarize_truncates_when_sentence_exceeds_max_len():
 def test_summarize_handles_empty_input():
     summary = summarize("", max_len=100, already_cleaned=True)
     assert summary == "Nothing to summarize after cleaning."
+
+
+def test_summarize_preserves_short_sentences():
+    text = "Short sentence. Tiny info."
+    summary = summarize(text, max_len=100, already_cleaned=True)
+
+    assert summary  # should not be empty
+    assert "Short sentence." in summary or "Tiny info." in summary
