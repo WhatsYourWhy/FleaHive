@@ -35,7 +35,7 @@ MODEL = load_model()
 
 def clean(text: str) -> str:
     """Normalize Markdown-heavy text before summarization."""
-    text = re.sub(r"(?m)^---[\s\S]+?---", "", text)  # frontmatter
+    text = re.sub(r"(?s)\A---\s*\n.*?\n---\s*\n?", "", text, count=1)  # frontmatter
     text = re.sub(r"\[([^\]]+)\]\([^\)]+\)", r"\1", text)  # links
     text = re.sub(r"(?i)@article{[^}]+}|https?://\S+|doi:\S+", "", text)  # refs/urls
     text = re.sub(r"!\[.*?\]\([^\)]+\)", "", text)  # images
