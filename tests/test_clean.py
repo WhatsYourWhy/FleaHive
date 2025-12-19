@@ -22,3 +22,16 @@ Content should remain after the rule.
     cleaned = clean(text)
     assert "Content should remain after the rule." in cleaned
     assert "---" in cleaned
+
+
+def test_clean_strips_markdown_and_links():
+    text = """# Heading
+
+Here is a [link](https://example.com) with **bold** text,
+an image ![alt](image.png), and a citation https://arxiv.org/1234.
+"""
+    cleaned = clean(text)
+    assert "[" not in cleaned and "]" not in cleaned
+    assert "https://" not in cleaned
+    assert "image.png" not in cleaned
+    assert "Heading" in cleaned and "bold" in cleaned
