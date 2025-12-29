@@ -43,6 +43,13 @@ def _cosine_similarity(vec_a: Iterable[float], vec_b: Iterable[float]) -> float:
     return float(dot / (norm_a * norm_b))
 
 
+def _l2_normalize(vec: Iterable[float]) -> List[float]:
+    norm = math.sqrt(sum(component * component for component in vec))
+    if not norm:
+        return list(vec)
+    return [component / norm for component in vec]
+
+
 def clean(text: str) -> str:
     """Normalize Markdown-heavy text before summarization."""
     text = re.sub(r"(?s)\A---\s*\n.*?\n---\s*\n?", "", text, count=1)  # frontmatter
@@ -78,9 +85,16 @@ def summarize(text: str, max_len: int = 450, *, already_cleaned: bool = False) -
         return "Nothing to summarize after cleaning."
 
     if MODEL:  # semantic mode — compares every sentence to the whole document
-        embeddings = MODEL.encode([cleaned] + sentences, normalize_embeddings=True)
-        doc_vec = embeddings[0]
-        scores = [_cosine_similarity(doc_vec, emb) for emb in embeddings[1:]]
+        try:
+            embeddings = MODEL.encode([cleaned] + sentences, normalize_embeddings=True)
+        except TypeError:  # older models may not support the kwarg
+            embeddings = MODEL.encode([cleaned] + sentences)
+
+        normalized_embeddings = [_l2_normalize(emb) for emb in embeddings]
+        doc_vec = normalized_embeddings[0]
+        scores = [
+            _cosine_similarity(doc_vec, sentence_vec) for sentence_vec in normalized_embeddings[1:]
+        ]
         ranked = sorted(zip(scores, sentences), reverse=True)
     else:  # pure keyword mode (still excellent)
         words = re.findall(r"\w+", cleaned.lower())
