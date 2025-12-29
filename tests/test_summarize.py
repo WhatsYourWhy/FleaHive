@@ -27,7 +27,7 @@ def test_summarize_preserves_short_sentences():
 
 def test_semantic_mode_prefers_closest_sentence(monkeypatch):
     text = (
-        "An expansive discussion that covers many unrelated topics. "
+        "An expansive discussion that covers many unrelated topics and keeps going well beyond the core idea. "
         "Key insight."
     )
 
@@ -36,8 +36,8 @@ def test_semantic_mode_prefers_closest_sentence(monkeypatch):
             assert normalize_embeddings is True
             return [
                 [1.0, 0.0],  # document vector
-                [0.0, 1.0],  # expansive discussion
-                [1.0, 0.0],  # key insight
+                [10.0, 4.0],  # expansive discussion (longer but less aligned)
+                [1.0, 0.0],  # key insight (short but fully aligned)
             ]
 
     monkeypatch.setattr(FleaHive, "MODEL", FakeModel())
