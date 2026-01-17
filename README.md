@@ -1,117 +1,110 @@
-Strainer 🧺
+# Strainer 🧺
 
-Offline document summarization + tagging for text and Markdown
+Offline document summarization + tagging for text and Markdown.
 
 Strainer is a small, local-first CLI that converts .txt and .md files into structured summaries, tags, and metrics—entirely offline. It’s built for pipelines and note systems, not dashboards.
 
-Input: text / Markdown
-Output: JSON (default) or Obsidian-friendly Markdown
-Network: none (no API calls, no uploads)
-
+* Input: text / Markdown
+* Output: JSON (default) or Obsidian-friendly Markdown
+* Network: none (no API calls, no uploads)
 
 ---
 
-Why it exists
+## Why it exists
 
 Most summarizers assume a web app and cloud processing. Strainer is for situations where notes must stay local and output needs to be reusable and inspectable.
 
 Use Strainer when you want:
 
-Fast compression of long notes into a usable digest
-
-Tags you can feed into search / indexing
-
-Output that drops into scripts, vaults, or agents
-
-Offline operation by default
-
-
+* Fast compression of long notes into a usable digest
+* Tags you can feed into search / indexing
+* Output that drops into scripts, vaults, or agents
+* Offline operation by default
 
 ---
 
-What it produces
+## Output
 
-Extractive summary (top-ranked sentences from the source)
+Strainer produces:
 
-Tags (topic keywords)
-
-Metrics (word counts + compression)
-
+* Extractive summary (top-ranked sentences from the source)
+* Tags (topic keywords)
+* Metrics (word counts + compression)
 
 Optional:
 
-Evidence anchors mapping summary sentences and tags back to the cleaned source text
-
-
+* Evidence anchors mapping summary sentences and tags back to the cleaned source text
 
 ---
 
-How it works
+## How it works
 
-Strainer supports two modes:
+Strainer supports two modes. The output format is the same either way.
 
-Smart Mode (optional): embedding-based sentence ranking (sentence-transformers)
-
-Fast Mode (default): pure-Python keyword-density ranking (no optional installs)
-
-
-Same output format either way.
-
+| Mode | Dependencies | Ranking approach | Speed |
+| --- | --- | --- | --- |
+| Smart (optional) | sentence-transformers | Embedding-based sentence ranking | Slower, higher quality |
+| Fast (default) | None | Keyword-density ranking | Faster, lightweight |
 
 ---
 
-Installation
+## Installation
 
 Requires Python 3.
 
 Optional (Smart Mode):
 
+```bash
 pip install -r requirements.txt
+```
 
 Runs without optional dependencies.
 
-
 ---
 
-Usage
+## Usage
 
-CLI
+CLI:
 
+```bash
 python Strainer.py my_notes.md
+```
 
 Include evidence anchors:
 
+```bash
 python Strainer.py my_notes.md --include-anchors
+```
 
 Emit Markdown (Obsidian-friendly) instead of JSON:
 
+```bash
 python Strainer.py my_notes.md --output-md
+```
 
 Write Markdown to a file:
 
+```bash
 python Strainer.py my_notes.md --output-md summary.md
+```
 
-Pipe input
+Pipe input:
 
+```bash
 cat article.txt | python Strainer.py -
+```
 
-Drag & drop (Windows)
+Drag & drop (Windows):
 
-1. Keep Strainer.py and Drag_Text_Here.bat in the same folder
-
-
-2. Drag a .txt or .md file onto Drag_Text_Here.bat
-
-
-3. Read JSON output in the console
-
-
-
+1. Keep Strainer.py and Drag_Text_Here.bat in the same folder.
+2. Drag a .txt or .md file onto Drag_Text_Here.bat.
+3. Read JSON output in the console.
 
 ---
 
-Example output (JSON)
+## Example output (JSON)
 
+```json
 {
   "summary": "We observed three colonies near the edge of the meadow.",
   "tags": ["colonies", "meadow", "honeybee", "field", "observed"],
@@ -121,9 +114,11 @@ Example output (JSON)
     "compression": "52.4%"
   }
 }
+```
 
-Optional evidence anchors
+Optional evidence anchors:
 
+```json
 {
   "evidence": {
     "summary": [
@@ -139,24 +134,19 @@ Optional evidence anchors
     ]
   }
 }
-
+```
 
 ---
 
-Markdown cleaning
+## Markdown cleaning
 
 Before analysis, Strainer removes common Markdown noise:
 
-frontmatter
-
-links
-
-images
-
-formatting artifacts
-
+* Frontmatter
+* Links
+* Images
+* Formatting artifacts
 
 This keeps tags and summaries focused on content, not syntax.
-
 
 ---
