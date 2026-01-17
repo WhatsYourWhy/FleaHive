@@ -51,6 +51,19 @@ Or toggle anchors via environment variable:
 FLEAHIVE_INCLUDE_ANCHORS=1 python FleaHive.py my_notes.md
 ```
 
+### Output Markdown
+Emit an Obsidian-friendly Markdown summary instead of JSON:
+
+```bash
+python FleaHive.py my_notes.md --output-md
+```
+
+Write the Markdown output directly to a file:
+
+```bash
+python FleaHive.py my_notes.md --output-md summary.md
+```
+
 ### Method C: Pipe Input
 Pipe text to FleaHive by passing `-` as the path:
 

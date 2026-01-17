@@ -290,6 +290,16 @@ def main(argv: Sequence[str]) -> int:
         include_anchors = True
         args = [arg for arg in args if arg not in ("-a", "--include-anchors")]
 
+    output_md_path: str | None = None
+    if "--output-md" in args:
+        idx = args.index("--output-md")
+        if idx + 1 < len(args) and not args[idx + 1].startswith("-"):
+            output_md_path = args[idx + 1]
+            del args[idx : idx + 2]
+        else:
+            output_md_path = ""
+            del args[idx]
+
     if not args:
         print(json.dumps({"error": "Drag a .txt or .md file here, or pipe text in"}))
         return 1
@@ -337,6 +347,36 @@ def main(argv: Sequence[str]) -> int:
 
     if include_anchors:
         result["evidence"] = evidence
+
+    if output_md_path is not None:
+        frontmatter_tags = ", ".join(tags)
+        markdown_lines = [
+            "---",
+            f"tags: [{frontmatter_tags}]",
+            f"original_words: {original_words}",
+            f"summary_words: {summary_words}",
+            f"compression: \"{compression_ratio:.1%}\"",
+            "---",
+            "",
+            "## Summary",
+            summary_text,
+        ]
+        if include_anchors:
+            markdown_lines.extend(
+                [
+                    "",
+                    "## Evidence",
+                    "```json",
+                    json.dumps(evidence, indent=2, ensure_ascii=False),
+                    "```",
+                ]
+            )
+        markdown_output = "\n".join(markdown_lines).strip() + "\n"
+        if output_md_path:
+            with open(output_md_path, "w", encoding="utf-8") as handle:
+                handle.write(markdown_output)
+        print(markdown_output, end="")
+        return 0
 
     print(json.dumps(result, indent=2, ensure_ascii=False))
     return 0
