@@ -191,4 +191,4 @@ This keeps tags and summaries focused on content, not syntax.
 
 ## License
 
-See [LICENSE](LICENSE).
+MIT License. See [LICENSE](LICENSE).
