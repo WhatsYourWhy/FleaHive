@@ -47,8 +47,10 @@ Strainer supports two modes. The output format is the same either way.
 
 | Mode | Dependencies | Ranking approach | Speed |
 | --- | --- | --- | --- |
-| Smart (optional) | sentence-transformers | Embedding-based sentence ranking | Slower, higher quality |
+| Smart (optional) | sentence-transformers, torch, numpy | Embedding-based sentence ranking | Slower, higher quality |
 | Fast (default) | None | Keyword-density ranking | Faster, lightweight |
+
+Smart Mode requires local model weights to be available. If the Smart Mode dependencies (`sentence-transformers`, `torch`, `numpy`) are missing, Strainer automatically falls back to Fast Mode.
 
 ---
 
