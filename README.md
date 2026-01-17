@@ -84,6 +84,31 @@ Supported Python versions:
 
 ---
 
+## Quick Start
+
+Minimal example:
+
+```bash
+echo "We observed three colonies near the edge of the meadow." > my_notes.md
+python Strainer.py my_notes.md
+```
+
+Expected output format (JSON):
+
+```json
+{
+  "summary": "We observed three colonies near the edge of the meadow.",
+  "tags": ["colonies", "meadow", "honeybee", "field", "observed"],
+  "metrics": {
+    "original_words": 21,
+    "summary_words": 11,
+    "compression": "52.4%"
+  }
+}
+```
+
+---
+
 ## Usage
 
 CLI:
