@@ -8,6 +8,10 @@ Strainer is a small, local-first CLI that converts .txt and .md files into struc
 - Output: JSON (default) or Obsidian-friendly Markdown
 - Network: none (no API calls, no uploads)
 
+## Privacy (offline-first)
+
+Strainer runs fully offline: it makes zero network calls and never uploads your data.
+
 ---
 
 ## Why it exists
@@ -77,12 +81,6 @@ Supported Python versions:
 - 3.10
 - 3.11
 - 3.12
-
----
-
-## Privacy & security
-
-Strainer is offline-only: it performs no network calls and does not upload data. This makes it suitable for privacy-sensitive notes and public release environments where local processing is required.
 
 ---
 
