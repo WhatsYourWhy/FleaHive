@@ -52,6 +52,12 @@ Strainer supports two modes. The output format is the same either way.
 
 Requires Python 3.
 
+Fast mode (default, no extra dependencies):
+
+```bash
+python Strainer.py --help
+```
+
 Optional (Smart Mode):
 
 ```bash
@@ -59,6 +65,24 @@ pip install -r requirements.txt
 ```
 
 Runs without optional dependencies.
+
+---
+
+## Compatibility
+
+Supported Python versions:
+
+* 3.8
+* 3.9
+* 3.10
+* 3.11
+* 3.12
+
+---
+
+## Privacy & security
+
+Strainer is offline-only: it performs no network calls and does not upload data. This makes it suitable for privacy-sensitive notes and public release environments where local processing is required.
 
 ---
 
@@ -150,3 +174,7 @@ Before analysis, Strainer removes common Markdown noise:
 This keeps tags and summaries focused on content, not syntax.
 
 ---
+
+## License
+
+See [LICENSE](LICENSE).
